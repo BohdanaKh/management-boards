@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Model, Types } from 'mongoose';
 import * as mongoose from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -13,6 +13,10 @@ export class BoardService {
     @InjectModel('Board') private boardModel: Model<Board>,
     @InjectModel('Card') private cardModel: Model<Card>,
   ) {}
+
+  async findAll(): Promise<Board[]> {
+    return await this.boardModel.find().exec();
+  }
 
   async create(createBoardDto: CreateBoardDto): Promise<Board> {
     const createdBoard = new this.boardModel({
@@ -70,9 +74,9 @@ export class BoardService {
     );
   }
 
-  removeCard(cardId: string, boardId: mongoose.Schema.Types.ObjectId) {
+  removeCard(cardId: string, board) {
     return this.boardModel.findByIdAndUpdate(
-      { _id: boardId },
+      { _id: board },
       { $pull: { cards: cardId } },
       { new: true },
     );

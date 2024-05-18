@@ -12,7 +12,7 @@ export class CardController {
   async create(
     @Param('boardId') boardId: string,
     @Body() createCardDto: CreateCardDto,
-  ) {
+  ): Promise<Card> {
     return this.cardService.create(boardId, createCardDto);
   }
 
@@ -25,7 +25,7 @@ export class CardController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<void> {
     return this.cardService.deleteById(id);
   }
 }

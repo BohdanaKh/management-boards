@@ -16,8 +16,13 @@ import { Board } from './model/board.model';
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
+  @Get()
+  async getList(): Promise<Board[]> {
+    return this.boardService.findAll();
+  }
+
   @Post()
-  async create(@Body() createBoardDto: CreateBoardDto) {
+  async create(@Body() createBoardDto: CreateBoardDto): Promise<Board> {
     return this.boardService.create(createBoardDto);
   }
 
@@ -35,7 +40,7 @@ export class BoardController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<void> {
     return this.boardService.deleteById(id);
   }
 }

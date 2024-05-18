@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -15,9 +16,10 @@ export class CardService {
   ) {}
 
   async create(boardId: string, createCardDto: CreateCardDto): Promise<Card> {
+    console.log(boardId);
     const createdCard = new this.cardModel({
       ...createCardDto,
-      board: boardId,
+      board: new mongoose.Types.ObjectId(boardId),
       status: CardStatus.ToDo,
     });
     await createdCard.save();

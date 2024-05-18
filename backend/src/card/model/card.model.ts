@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
 import * as mongoose from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 import { CardStatus } from '../enum/card-status.enum';
+import { Board } from '../../board/model/board.model';
 
 export type CardDocument = HydratedDocument<Card>;
 
@@ -18,7 +19,7 @@ export class Card {
   status: CardStatus;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Board' })
-  board: mongoose.Schema.Types.ObjectId;
+  board: Board;
 }
 
 export const CardSchema = SchemaFactory.createForClass(Card);

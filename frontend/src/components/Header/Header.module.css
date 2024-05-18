@@ -1,0 +1,23 @@
+.Header {
+    width: 100%;
+    height: 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(60, 83, 97, 0.8);
+    color: rgba(156, 197, 223, 0.8);
+}
+
+.Header a{
+    text-decoration: none;
+    font-size: 25px;
+    margin: 0 5px;
+    color: snow;
+}
+.Header button {
+    width: 10%;
+    height: 80%;
+    background-color: darkslategrey;
+    color: lightgrey;
+    font-size: 20px;
+}

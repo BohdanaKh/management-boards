@@ -1,0 +1,14 @@
+.Board {
+    width: 24%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #213547;
+    margin: 7px 7px;
+}
+
+.Board h3 {
+    color: seagreen;
+}
