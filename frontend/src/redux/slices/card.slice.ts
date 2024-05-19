@@ -4,11 +4,11 @@ import {createAsyncThunk, createSlice, isFulfilled, isPending, isRejectedWithVal
 import {cardsService} from "../../services/card.service.ts";
 import {ICardModel} from "../../models/ICardModel.ts";
 import {IError} from "../../models/IErrorModel.ts";
+import {boardActions} from "./board.slice.ts";
 
 
 interface IState {
     card: ICardModel,
-    trigger: boolean,
     cardForUpdate: ICardModel,
     loading: boolean,
     errors: IError,
@@ -16,7 +16,6 @@ interface IState {
 
 const initialState: IState = {
     card: null,
-    trigger: null,
     cardForUpdate: null,
     loading: false,
     errors: null
@@ -37,9 +36,10 @@ const getById = createAsyncThunk<ICardModel, { boardId: string, id: string}>(
 
 const create = createAsyncThunk<void, {boardId: string, card: ICardModel }>(
     'cardSlice/create',
-    async ({boardId, card}, {rejectWithValue}) => {
+    async ({boardId, card}, {rejectWithValue, dispatch}) => {
         try {
-            await cardsService.create(boardId, card)
+            await cardsService.create(boardId, card);
+            await dispatch(boardActions.getById(boardId));
         } catch (e) {
             const err = e as AxiosError
             return rejectWithValue(err?.response?.data)
@@ -49,10 +49,10 @@ const create = createAsyncThunk<void, {boardId: string, card: ICardModel }>(
 
 const update = createAsyncThunk<void, { boardId: string, id: string, card: ICardModel }>(
     'cardSlice/update',
-    async ({boardId, id, card}, {rejectWithValue}) => {
+    async ({boardId, id, card}, {rejectWithValue, dispatch}) => {
         try {
-            console.log(id);
-            await cardsService.updateById(boardId, id, card)
+            await cardsService.updateById(boardId, id, card);
+            await dispatch(boardActions.getById(boardId));
         } catch (e) {
             const err = e as AxiosError
             return rejectWithValue(err?.response?.data)
@@ -62,9 +62,10 @@ const update = createAsyncThunk<void, { boardId: string, id: string, card: ICard
 
 const deleteCardById  = createAsyncThunk<void, { boardId: string, id: string}>(
     'cardSlice/deleteCardById',
-    async ({ boardId, id}, {rejectWithValue}) => {
+    async ({ boardId, id}, {rejectWithValue, dispatch}) => {
         try {
-            await cardsService.deleteById(boardId, id)
+            await cardsService.deleteById(boardId, id);
+            await dispatch(boardActions.getById(boardId));
         } catch (e) {
             const err = e as AxiosError
             return rejectWithValue(err?.response?.data)
@@ -91,9 +92,7 @@ const cardSlice = createSlice({
             .addCase(update.fulfilled, state => {
                 state.cardForUpdate = null
             })
-            .addMatcher(isFulfilled(create, update, deleteCardById),state => {
-                state.trigger = !state.trigger
-            })
+
             .addMatcher(isFulfilled( getById), state => {
                 state.loading = false
                 state.errors = null

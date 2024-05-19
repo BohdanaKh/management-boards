@@ -1,6 +1,5 @@
 import {IBoardModel} from "../models/IBoardModel.ts";
 import {urls} from "../constants/urls.ts";
-import {AxiosResponse} from "axios";
 import {apiService} from "./api.service.ts";
 import {IRes} from "../types/response.type.ts";
 

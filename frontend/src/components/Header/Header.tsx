@@ -15,7 +15,7 @@ const Header: FC<IProps> = () => {
 const dispatch = useAppDispatch();
     return (
         <div className={css.Header}>
-            <Link to={ROUTER_KEYS.HOME}>KANBAN BOARDs</Link>
+            <Link to={ROUTER_KEYS.HOME}>O, BOARDs</Link>
             <SearchBar/>
             <button type={'button'} onClick={() => dispatch(modalActions.setShowModal('board'))}>Add board</button>
         </div>

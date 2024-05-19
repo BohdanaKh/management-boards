@@ -26,14 +26,6 @@ const BoardForm: FC<IProps> = () => {
     const { boardForUpdate } = useAppSelector(state => state.boardReducer);
     console.log('boardForUpdate:', boardForUpdate);
     const dispatch = useAppDispatch();
-    // const update: SubmitHandler<IBoardModel> = async (board) => {
-    //     const {
-    //         meta: { requestStatus },
-    //     } = await dispatch(boardActions.update({ id: boardForUpdate.id, board }));
-    //     if (requestStatus === "fulfilled") {
-    //         dispatch(orderModalActions.closeOrderEditModal());
-    //     }
-    // };
 
     useEffect(() => {
         if (boardForUpdate) {

@@ -27,14 +27,6 @@ const CardForm: FC<IProps> = () => {
     });
     const { cardForUpdate } = useAppSelector(state => state.cardReducer);
     const dispatch = useAppDispatch();
-    // const update: SubmitHandler<IBoardModel> = async (board) => {
-    //     const {
-    //         meta: { requestStatus },
-    //     } = await dispatch(boardActions.update({ id: boardForUpdate.id, board }));
-    //     if (requestStatus === "fulfilled") {
-    //         dispatch(orderModalActions.closeOrderEditModal());
-    //     }
-    // };
 
     useEffect(() => {
         if (cardForUpdate) {
@@ -42,8 +34,7 @@ const CardForm: FC<IProps> = () => {
             setValue("description", cardForUpdate.description, { shouldValidate: true });
         }
     }, [cardForUpdate, setValue]);
-    const update: SubmitHandler<ICardModel> = async (card) => {
-        console.log(cardForUpdate);
+    const update: SubmitHandler<ICardModel> = async (card) => {;
         await dispatch(cardActions.update({ boardId, id:cardForUpdate._id, card }));
         reset();
         dispatch(modalActions.closeModal());

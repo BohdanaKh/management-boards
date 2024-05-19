@@ -7,16 +7,14 @@ import {IError} from "../../models/IErrorModel.ts";
 interface IState {
    boards: IBoardModel[];
    board: IBoardModel;
-    trigger: boolean
-    boardForUpdate: IBoardModel,
-    loading: boolean,
-    errors: IError,
+    boardForUpdate: IBoardModel;
+    loading: boolean;
+    errors: IError;
 }
 
 const initialState: IState = {
     boards: [],
     board: null,
-    trigger: false,
     boardForUpdate: null,
     loading: false,
     errors: null
@@ -50,9 +48,10 @@ const getById = createAsyncThunk<IBoardModel, string>(
 
 const create = createAsyncThunk<void, { board: IBoardModel }>(
     'boardSlice/create',
-    async ({board}, {rejectWithValue}) => {
+    async ({board}, {rejectWithValue, dispatch}) => {
         try {
-            await boardsService.create(board)
+            await boardsService.create(board);
+            await dispatch(getAll());
         } catch (e) {
             const err = e as AxiosError
             return rejectWithValue(err?.response?.data)
@@ -62,9 +61,10 @@ const create = createAsyncThunk<void, { board: IBoardModel }>(
 
 const update = createAsyncThunk<void, { board: IBoardModel, id: string }>(
     'boardSlice/update',
-    async ({id, board}, {rejectWithValue}) => {
+    async ({id, board}, {rejectWithValue, dispatch}) => {
         try {
-            await boardsService.updateById(id, board)
+            await boardsService.updateById(id, board);
+            await dispatch(getById(id));
         } catch (e) {
             const err = e as AxiosError
             return rejectWithValue(err?.response?.data)
@@ -74,9 +74,10 @@ const update = createAsyncThunk<void, { board: IBoardModel, id: string }>(
 
 const deleteById  = createAsyncThunk<void, { id: string }>(
     'boardSlice/deleteById',
-    async ({id}, {rejectWithValue}) => {
+    async ({id}, {rejectWithValue, dispatch}) => {
         try {
-            await boardsService.deleteById(id)
+            await boardsService.deleteById(id);
+            await dispatch(getAll());
         } catch (e) {
             const err = e as AxiosError
             return rejectWithValue(err?.response?.data)
@@ -105,9 +106,6 @@ const boardSlice = createSlice({
             })
             .addCase(update.fulfilled, state => {
                 state.boardForUpdate = null
-            })
-            .addMatcher(isFulfilled(create, update, deleteById),state => {
-                state.trigger = !state.trigger
             })
 
             .addMatcher(isFulfilled(getAll, getById), state => {
