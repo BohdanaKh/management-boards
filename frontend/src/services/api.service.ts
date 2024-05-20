@@ -1,9 +1,7 @@
-import axios, {AxiosInstance} from "axios";
+import axios, { AxiosInstance } from 'axios';
 
-import { baseURL } from "../constants/urls.ts";
+import { baseURL } from '../constants/urls.ts';
 
-const apiService: AxiosInstance = axios.create({baseURL});
+const apiService: AxiosInstance = axios.create({ baseURL });
 
-export {
-    apiService
-}
+export { apiService };

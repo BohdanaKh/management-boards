@@ -1,59 +1,58 @@
 .searchBarContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
 }
 
 .searchBar {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .searchInput {
-    width: 100%;
-    padding: 10px 15px 10px 40px;
-    border: 2px solid #ccc;
-    background-color: rgba(62, 106, 45, 0.8);
-    border-radius: 25px;
-    font-size: 16px;
-    transition: border-color 0.3s ease-in-out;
+  width: 100%;
+  padding: 10px 15px 10px 40px;
+  border: 2px solid #ccc;
+  background-color: rgba(62, 106, 45, 0.8);
+  border-radius: 25px;
+  font-size: 16px;
+  transition: border-color 0.3s ease-in-out;
 }
 
 .searchInput:focus {
-    border-color: seagreen;
-    outline: none;
+  border-color: seagreen;
+  outline: none;
 }
 
-
 .searchIcon {
-    font-size: 28px;
+  font-size: 28px;
 }
 
 .searchButton {
-    margin-left: 10px;
-    border: none;
-    border-radius: 10px;
-    background: none;
-    font-size: 28px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+  margin-left: 10px;
+  border: none;
+  border-radius: 10px;
+  background: none;
+  font-size: 28px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .searchButton:hover {
-    background-color: lightseagreen;
+  background-color: lightseagreen;
 }
 
 @media (max-width: 600px) {
-    .searchBar {
-        max-width: 100%;
-    }
+  .searchBar {
+    max-width: 100%;
+  }
 
-    .searchButton {
-        padding: 8px 16px;
-    }
+  .searchButton {
+    padding: 8px 16px;
+  }
 }

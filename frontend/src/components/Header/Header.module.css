@@ -1,33 +1,39 @@
 .Header {
-    width: 100%;
-    height: 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(60, 83, 97, 0.8);
-    color: rgba(156, 197, 223, 0.8);
-    border-radius: 2%;
+  width: 100%;
+  height: 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(60, 83, 97, 0.8);
+  color: rgba(156, 197, 223, 0.8);
+  border-radius: 2%;
 }
 
-.Header a{
-    text-decoration: none;
-    font-size: 25px;
-    margin: 0 5px;
-    color: snow;
+.Header a {
+  text-decoration: none;
+  font-size: 25px;
+  margin: 0 5px;
+  color: snow;
 }
-.Header a:hover {
-        transform: scale(0.9);
-        transition: all 0.3s;
+.logo {
+  background: none;
+  font-size: 25px;
+  outline: none;
+}
+.logo:hover {
+  transform: scale(0.9);
+  transition: all 0.3s;
+  cursor: default;
 }
 .Header button {
-    width: 10%;
-    height: 80%;
-    background-color: darkslategrey;
-    color: lightgrey;
-    font-size: 20px;
+  width: 10%;
+  height: 80%;
+  background-color: darkslategrey;
+  color: lightgrey;
+  font-size: 20px;
 }
 @media screen and (max-width: 1024px) {
-    .Header button {
-        font-size: 12px;
-    }
+  .Header button {
+    font-size: 12px;
+  }
 }

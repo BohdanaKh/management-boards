@@ -1,18 +1,11 @@
-import {FC} from 'react';
+import { FC } from 'react';
 
-import css from "./Footer.module.css";
+import css from './Footer.module.css';
 
-interface IProps {
-
-}
+interface IProps {}
 
 const Footer: FC<IProps> = () => {
-
-    return (
-        <div className={css.Footer}>
-            2024
-        </div>
-    );
+  return <div className={css.Footer}>2024</div>;
 };
 
-export {Footer};
+export { Footer };

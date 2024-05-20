@@ -1,7 +1,6 @@
-
 export interface ICardModel {
-    _id: string;
-    name: string;
-    description: string;
-    status: string;
+  _id: string;
+  name: string;
+  description: string;
+  status: string;
 }
