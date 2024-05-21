@@ -11,3 +11,16 @@ export const ROUTER_KEYS = {
   BOARD_ID: '/boards/:boardId/cards',
   CARD_ID: '/boards/:boardId/cards/:cardId',
 };
+
+export const BUTTON_KEYS = {
+  UPDATE: 'Update',
+  SAVE: 'Save',
+  ADD_BOARD: 'Add Board',
+  DELETE: 'DELETE',
+  EDIT: 'EDIT',
+  CLOSE: 'Close',
+};
+export const MODAL_CONTENT = {
+  BOARD: 'board',
+  CARD: 'card',
+};

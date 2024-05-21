@@ -17,7 +17,6 @@
   font-size: 12px;
   text-align: center;
   display: flex;
-  overflow: auto;
   flex-direction: column;
   justify-items: flex-start;
   padding: 2px;

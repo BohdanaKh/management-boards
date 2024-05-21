@@ -1,4 +1,4 @@
-import { IBoardModel } from '../../models/IBoardModel.ts';
+import { AxiosError } from 'axios';
 import {
   createAsyncThunk,
   createSlice,
@@ -6,8 +6,9 @@ import {
   isPending,
   isRejectedWithValue,
 } from '@reduxjs/toolkit';
+
+import { IBoardModel } from '../../models/IBoardModel.ts';
 import { boardsService } from '../../services/board.service.ts';
-import { AxiosError } from 'axios';
 import { IError } from '../../models/IErrorModel.ts';
 
 interface IState {
@@ -52,12 +53,13 @@ const getById = createAsyncThunk<IBoardModel, string>(
   }
 );
 
-const create = createAsyncThunk<void, { board: IBoardModel }>(
+const create = createAsyncThunk<IBoardModel, { board: IBoardModel }>(
   'boardSlice/create',
   async ({ board }, { rejectWithValue, dispatch }) => {
     try {
-      await boardsService.create(board);
+      const { data } = await boardsService.create(board);
       await dispatch(getAll());
+      return data;
     } catch (e) {
       const err = e as AxiosError;
       return rejectWithValue(err?.response?.data);
@@ -110,6 +112,9 @@ const boardSlice = createSlice({
         state.boards = action.payload;
       })
       .addCase(getById.fulfilled, (state, action) => {
+        state.board = action.payload;
+      })
+      .addCase(create.fulfilled, (state, action) => {
         state.board = action.payload;
       })
       .addCase(update.fulfilled, (state) => {

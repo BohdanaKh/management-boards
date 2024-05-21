@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { ICardModel } from '../models/ICardModel.ts';
 
 export const cardValidator: Joi.ObjectSchema<Partial<ICardModel>> = Joi.object({

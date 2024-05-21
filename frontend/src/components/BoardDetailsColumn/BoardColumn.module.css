@@ -14,8 +14,7 @@
 .cards {
   width: 99%;
   height: 90%;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;

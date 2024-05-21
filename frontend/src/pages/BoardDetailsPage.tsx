@@ -14,27 +14,28 @@ export interface ITaskList {
 
 const BoardDetailsPage: FC = () => {
   const { boardId } = useParams();
+
   const { board } = useAppSelector((state) => state.boardReducer);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (boardId) {
-      dispatch(boardActions.getById(boardId));
+      void dispatch(boardActions.getById(boardId));
     }
   }, [dispatch, boardId]);
 
   if (board) {
     const cardsSections: ITaskList = board?.cards.reduce(
-      (acc, current: ICardModel) => {
+      (acc, current) => {
         switch (current.status) {
-          case ECardStatus.ToDo:
+          case 'To Do':
             acc['To Do'].push(current);
             break;
-          case ECardStatus.InProgress:
+          case 'In Progress':
             acc['In Progress'].push(current);
             break;
-          case ECardStatus.Done:
+          case 'Done':
             acc['Done'].push(current);
             break;
         }

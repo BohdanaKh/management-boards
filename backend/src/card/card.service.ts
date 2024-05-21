@@ -16,7 +16,6 @@ export class CardService {
   ) {}
 
   async create(boardId: string, createCardDto: CreateCardDto): Promise<Card> {
-    console.log(boardId);
     const createdCard = new this.cardModel({
       ...createCardDto,
       board: new mongoose.Types.ObjectId(boardId),

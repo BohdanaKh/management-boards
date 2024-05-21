@@ -1,10 +1,12 @@
 import Joi from 'joi';
+
 import { IBoardModel } from '../models/IBoardModel.ts';
 
 export const searchValidator: Joi.ObjectSchema<Partial<IBoardModel>> =
   Joi.object({
     _id: Joi.string()
       .pattern(/^[a-fA-F0-9]{24}$/)
+      .allow('')
       .messages({
         'string.pattern.base':
           'Board ID must be 24-character hexadecimal string',

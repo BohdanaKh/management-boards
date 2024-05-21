@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { IoIosSearch } from 'react-icons/io';
 
@@ -16,6 +16,7 @@ interface IFormProps {
 
 const SearchBar: FC = () => {
   const navigate: NavigateFunction = useNavigate();
+  const { boardId } = useParams();
   const {
     register,
     handleSubmit,
@@ -27,8 +28,10 @@ const SearchBar: FC = () => {
   });
   const dispatch = useAppDispatch();
   const find: SubmitHandler<IFormProps> = (formValue: IFormProps): void => {
-    dispatch(boardActions.delCurrentBoard());
-    navigate(`${ROUTER_KEYS.BOARDS}/${formValue._id}/${ROUTER_KEYS.CARDS}`);
+    if (formValue._id !== boardId) {
+      dispatch(boardActions.delCurrentBoard());
+      navigate(`${ROUTER_KEYS.BOARDS}/${formValue._id}/${ROUTER_KEYS.CARDS}`);
+    }
     reset();
   };
   return (
@@ -40,7 +43,7 @@ const SearchBar: FC = () => {
           type="text"
           {...register('_id')}
         />
-        {errors._id && <span>{errors._id.message}</span>}
+        {errors?._id && <span>{errors?._id.message}</span>}
         <button className={css.searchButton} disabled={!isValid}>
           <IoIosSearch className={css.searchIcon} />
         </button>

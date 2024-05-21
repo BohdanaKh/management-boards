@@ -10,6 +10,7 @@ import { ICardModel } from '../../models/ICardModel.ts';
 import { useAppDispatch } from '../../hooks/redux.hooks.ts';
 import { cardActions } from '../../redux/slices/card.slice.ts';
 import { modalActions } from '../../redux/slices/modal.slice.ts';
+import { MODAL_CONTENT } from '../../constants/app-keys.const.ts';
 
 interface IProps {
   id: string;
@@ -25,7 +26,7 @@ const Card: FC<IProps> = ({ task, id }) => {
     useSortable({ id });
   const editCard = (task: ICardModel): void => {
     dispatch(cardActions.setCardForUpdate(task));
-    dispatch(modalActions.setShowModal('card'));
+    dispatch(modalActions.setShowModal(MODAL_CONTENT.CARD));
   };
 
   const deleteCard = async (id: string): Promise<void> => {

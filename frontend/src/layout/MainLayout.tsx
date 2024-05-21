@@ -6,9 +6,7 @@ import { Footer } from '../components/Footer/Footer.tsx';
 import Portal from '../components/Portal/Portal.tsx';
 import css from './MainLayout.module.css';
 
-interface IProps {}
-
-const MainLayout: FC<IProps> = () => {
+const MainLayout: FC = () => {
   return (
     <div className={css.main}>
       <Header />

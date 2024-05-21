@@ -12,6 +12,7 @@ import { Card } from '../Card/Card.tsx';
 import { modalActions } from '../../redux/slices/modal.slice.ts';
 import { ICardModel } from '../../models/ICardModel.ts';
 import { useAppDispatch } from '../../hooks/redux.hooks.ts';
+import { MODAL_CONTENT } from '../../constants/app-keys.const.ts';
 
 interface IProps {
   title: string;
@@ -21,6 +22,7 @@ interface IProps {
 const BoardDetailsColumn: FC<IProps> = ({ title, items }) => {
   const dispatch = useAppDispatch();
   const { setNodeRef } = useDroppable({ id: title });
+
   const itemIds = items?.map((item) => item?._id);
 
   return (
@@ -40,7 +42,9 @@ const BoardDetailsColumn: FC<IProps> = ({ title, items }) => {
           {title === ECardStatus.ToDo && (
             <div
               className={css.addAction}
-              onClick={() => dispatch(modalActions.setShowModal('card'))}
+              onClick={() =>
+                dispatch(modalActions.setShowModal(MODAL_CONTENT.CARD))
+              }
             >
               <RiAddLargeFill />
             </div>

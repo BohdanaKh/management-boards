@@ -2,15 +2,17 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { SearchBar } from '../SearchBar/SearchBar.tsx';
-import { ROUTER_KEYS } from '../../constants/app-keys.const.ts';
+import {
+  BUTTON_KEYS,
+  MODAL_CONTENT,
+  ROUTER_KEYS,
+} from '../../constants/app-keys.const.ts';
 import { useAppDispatch } from '../../hooks/redux.hooks.ts';
 import { modalActions } from '../../redux/slices/modal.slice.ts';
 import css from './Header.module.css';
 import { boardActions } from '../../redux/slices/board.slice.ts';
 
-interface IProps {}
-
-const Header: FC<IProps> = () => {
+const Header: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const getMain = (): void => {
@@ -19,16 +21,15 @@ const Header: FC<IProps> = () => {
   };
   return (
     <div className={css.Header}>
-      {/*<Link to={ROUTER_KEYS.HOME}>O, BOARDs</Link>*/}
       <div className={css.logo} onClick={getMain}>
         <span>O, BOARDs</span>
       </div>
       <SearchBar />
       <button
         type={'button'}
-        onClick={() => dispatch(modalActions.setShowModal('board'))}
+        onClick={() => dispatch(modalActions.setShowModal(MODAL_CONTENT.BOARD))}
       >
-        Add board
+        {BUTTON_KEYS.ADD_BOARD}
       </button>
     </div>
   );

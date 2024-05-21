@@ -1,17 +1,17 @@
 import { FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { useParams } from 'react-router-dom';
 
+import css from './CardForm.module.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks.ts';
 import { ICardModel } from '../../models/ICardModel.ts';
 import { cardValidator } from '../../validators/card.validator.ts';
 import { cardActions } from '../../redux/slices/card.slice.ts';
 import { modalActions } from '../../redux/slices/modal.slice.ts';
-import { useParams } from 'react-router-dom';
+import { BUTTON_KEYS } from '../../constants/app-keys.const.ts';
 
-interface IProps {}
-
-const CardForm: FC<IProps> = () => {
+const CardForm: FC = () => {
   const { boardId } = useParams();
   const {
     handleSubmit,
@@ -24,7 +24,6 @@ const CardForm: FC<IProps> = () => {
     resolver: joiResolver(cardValidator),
   });
   const { cardForUpdate } = useAppSelector((state) => state.cardReducer);
-  console.log('For Update', cardForUpdate);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -54,14 +53,19 @@ const CardForm: FC<IProps> = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(cardForUpdate ? update : save)}>
+      <form
+        className={css.cardForm}
+        onSubmit={handleSubmit(cardForUpdate ? update : save)}
+      >
         {cardForUpdate ? (
           <>
+            <h3>Update card</h3>
             <input type="text" {...register('name')} />
             <input type="text" {...register('description')} />
           </>
         ) : (
           <>
+            <h3>Create new card</h3>
             <input
               type="text"
               placeholder={`Enter new card's name`}
@@ -77,7 +81,7 @@ const CardForm: FC<IProps> = () => {
         {errors.name && <span>{errors.name.message}</span>}
         {errors.description && <span>{errors.description.message}</span>}
         <button type={'submit'} disabled={!isValid}>
-          {cardForUpdate ? 'Update' : 'Save'}
+          {cardForUpdate ? BUTTON_KEYS.UPDATE : BUTTON_KEYS.SAVE}
         </button>
       </form>
     </div>

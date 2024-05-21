@@ -12,15 +12,20 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import css from './BoardSections.module.css';
-import { useAppDispatch } from '../../hooks/redux.hooks.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks.ts';
 import { boardActions } from '../../redux/slices/board.slice.ts';
 import { modalActions } from '../../redux/slices/modal.slice.ts';
 import { ITaskList } from '../../pages/BoardDetailsPage.tsx';
 import { BoardDetailsColumn } from '../BoardDetailsColumn/BoardDetailsColumn.tsx';
-import { cardActions } from '../../redux/slices/card.slice.ts';
-import { ROUTER_KEYS } from '../../constants/app-keys.const.ts';
+import {
+  BUTTON_KEYS,
+  MODAL_CONTENT,
+  ROUTER_KEYS,
+} from '../../constants/app-keys.const.ts';
 import { ECardStatus } from '../../enums/CardStatus.enum.ts';
 import { ICardModel } from '../../models/ICardModel.ts';
+import { IBoardModel } from '../../models/IBoardModel.ts';
+import { cardsService } from '../../services/card.service.ts';
 
 interface IProps {
   _id: string;
@@ -33,6 +38,9 @@ const BoardDetails: FC<IProps> = ({ _id, title, cardsSections }) => {
   const navigate = useNavigate();
   const [taskList, setTaskList] = useState<ITaskList>(cardsSections);
   const [draggedCard, setDraggedCard] = useState<ICardModel>(null);
+  const [sortedBoard, setSortedBoard] = useState<IBoardModel>(null);
+
+  const { board } = useAppSelector((state) => state.boardReducer);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -44,11 +52,15 @@ const BoardDetails: FC<IProps> = ({ _id, title, cardsSections }) => {
 
   useEffect(() => {
     if (draggedCard) {
-      dispatch(
-        cardActions.update({ boardId, id: draggedCard._id, card: draggedCard })
-      );
+      cardsService.updateById(boardId, draggedCard._id, draggedCard);
     }
-  }, [dispatch, draggedCard]);
+  }, [draggedCard]);
+
+  useEffect(() => {
+    if (sortedBoard) {
+      dispatch(boardActions.update({ board: sortedBoard, id: boardId }));
+    }
+  }, [sortedBoard]);
 
   const dragEndHandler = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -76,6 +88,12 @@ const BoardDetails: FC<IProps> = ({ _id, title, cardsSections }) => {
       });
     }
     setDraggedCard({ ...currentActiveItem, status: targetContainer });
+    const sortedCardsArr = [
+      ...Object.values(taskList)
+        .flat()
+        .map((item) => item._id),
+    ] as Partial<ICardModel>[];
+    setSortedBoard({ ...board, cards: sortedCardsArr });
   };
 
   const dragOverHandler = (event: DragOverEvent) => {
@@ -132,11 +150,12 @@ const BoardDetails: FC<IProps> = ({ _id, title, cardsSections }) => {
 
   const editBoard = () => {
     dispatch(boardActions.setBoardForUpdate({ _id, title }));
-    dispatch(modalActions.setShowModal('board'));
+    dispatch(modalActions.setShowModal(MODAL_CONTENT.BOARD));
   };
 
   const remove = async (id: string): Promise<void> => {
     await dispatch(boardActions.deleteById({ id }));
+    dispatch(boardActions.delCurrentBoard());
     navigate(`${ROUTER_KEYS.BOARDS}`);
   };
   return (
@@ -148,10 +167,10 @@ const BoardDetails: FC<IProps> = ({ _id, title, cardsSections }) => {
         </div>
         <div className={css.boardActions}>
           <button type={'button'} onClick={editBoard}>
-            EDIT
+            {BUTTON_KEYS.EDIT}
           </button>
           <button type={'button'} onClick={() => remove(_id)}>
-            DELETE
+            {BUTTON_KEYS.DELETE}
           </button>
         </div>
       </div>
