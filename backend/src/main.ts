@@ -12,7 +12,6 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  app.enableCors({ origin: '*' });
   const config = new DocumentBuilder()
     .setTitle('Boards')
     .setDescription('The boards API description')
