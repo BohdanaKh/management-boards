@@ -18,7 +18,6 @@ const BoardDetailsPage: FC = () => {
   const { board } = useAppSelector((state) => state.boardReducer);
 
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     if (boardId) {
       void dispatch(boardActions.getById(boardId));
